@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -33,12 +35,12 @@ public class PostRestController {
         return ResponseEntity.ok(resources);
     }
 
-    @PostMapping
-    public ResponseEntity<?> writePosts(@RequestBody Posts post) {
-        post.setCreatedDateNow();
-        postRepository.save(post);
-        return new ResponseEntity<>("{}", HttpStatus.CREATED);
-    }
+//    @PostMapping
+//    public ResponseEntity<?> writePosts(@RequestBody PostsForm post, HttpServletRequest request) {
+//        Posts saved = this.postRepository.save(new Posts(post.getTitle()));
+//        postRepository.save(post);
+//        return new ResponseEntity<>("{}", HttpStatus.CREATED);
+//    }
 
     @PutMapping("/{idx}")
     public ResponseEntity<?> modifyPosts(@PathVariable("idx")Integer idx, @RequestBody Posts post) {
