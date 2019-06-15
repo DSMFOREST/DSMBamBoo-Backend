@@ -21,6 +21,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'com.auth0:java-jwt:2.1.0'
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
     
     runtime 'org.springframework.boot:spring-boot-devtools'
     runtime 'mysql:mysql-connector-java'
