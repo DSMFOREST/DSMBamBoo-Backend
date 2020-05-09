@@ -1,13 +1,13 @@
-package com.dsmbamboo.dsmforest;
+package com.dsmbamboo.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DsmforestApplication {
+public class ApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DsmforestApplication.class, args);
+        SpringApplication.run(ApiApplication.class, args);
     }
 
 }
