@@ -1,5 +1,6 @@
 package com.dsmbamboo.api.domains.posts.model;
 
+import com.dsmbamboo.api.domains.users.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,6 +46,6 @@ public class Article {
     private Draft draft;
 
     @ManyToOne
-    private User user;
+    private User approvedBy;
 
 }
