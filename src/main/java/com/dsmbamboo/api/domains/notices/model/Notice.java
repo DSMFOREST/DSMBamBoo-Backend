@@ -1,6 +1,7 @@
 package com.dsmbamboo.api.domains.notices.model;
 
 import com.dsmbamboo.api.domains.posts.model.Category;
+import com.dsmbamboo.api.domains.users.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
