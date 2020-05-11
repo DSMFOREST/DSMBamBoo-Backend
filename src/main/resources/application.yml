@@ -11,6 +11,8 @@ spring:
 auth:
   jwt:
     secret: ${JWT_SECRET}
-    exp: ${JWT_EXP}
     prefix: ${JWT_PREFIX}
     header: ${JWT_HEADER}
+    exp:
+      access: ${JWT_EXP_ACCESS}
+      refresh: ${JWT_EXP_REFRESH}
