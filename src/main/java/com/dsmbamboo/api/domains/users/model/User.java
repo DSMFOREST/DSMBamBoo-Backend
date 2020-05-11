@@ -39,6 +39,8 @@ public class User {
 
     private String deviceToken;
 
+    private String refreshToken;
+
     private LocalDateTime createdAt;
 
     public List<String> getRoles() {
