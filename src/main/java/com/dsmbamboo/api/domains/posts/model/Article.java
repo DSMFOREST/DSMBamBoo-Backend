@@ -1,51 +1,50 @@
 package com.dsmbamboo.api.domains.posts.model;
 
+import com.dsmbamboo.api.domains.commons.model.Auditable;
+import com.dsmbamboo.api.domains.images.model.Image;
 import com.dsmbamboo.api.domains.users.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Optional;
 
+@Entity
 @Builder
-@Data @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Article {
+public class Article extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private Long publishedId;
+
     @Column(nullable = false)
     private String title;
 
+    @Size(max = 2000)
     @Column(nullable = false)
     private String content;
 
-    @ElementCollection
-    private List<String> images;
-
-    @ManyToMany
-    private List<Category> categories;
-
     @Column
-    private String link;
-
-    @Column(nullable = false)
-    private boolean isVisible;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @OneToOne
-    private Draft draft;
+    private String facebookLink;
 
     @ManyToOne
-    private User approvedBy;
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "approver_id", referencedColumnName = "id")
+    private User approver;
+
+    @Column(nullable = false, name = "active_flag")
+    private boolean isActive;
+
+    @OneToMany
+    @OrderColumn(name = "sequence_id")
+    private List<Image> images;
 
 }

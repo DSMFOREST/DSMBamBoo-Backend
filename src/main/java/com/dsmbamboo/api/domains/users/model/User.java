@@ -1,58 +1,54 @@
 package com.dsmbamboo.api.domains.users.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.dsmbamboo.api.domains.commons.model.Auditable;
+import com.dsmbamboo.api.utils.StringListConverter;
+import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-@Data
-@Builder
 @Entity
+@Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
 
-    private String email;
-
+    @Column
     private String username;
 
+    @Column
     private String password;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column
+    @Convert(converter = StringListConverter.class)
+    private List<String> roles;
+
+    @Column
+    @Convert(converter = StringListConverter.class)
+    private List<String> permissions;
+
+    @Column(name = "active_flag")
     private boolean isActive;
 
-    private String roles;
-
-    private String permissions;
-
+    @Column
     private String deviceToken;
 
+    @Column
     private String refreshToken;
 
-    private LocalDateTime createdAt;
-
-    public List<String> getRoles() {
-        if (!roles.isEmpty())
-            return Arrays.asList(roles.split(","));
-        return new ArrayList<>();
-    }
-
-    public List<String> getPermissions() {
-        if (!roles.isEmpty())
-            return Arrays.asList(roles.split(","));
-        return new ArrayList<>();
-    }
+    @LastModifiedDate
+    private LocalDateTime modifiedAt;
 
 }
