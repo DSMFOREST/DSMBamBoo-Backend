@@ -51,4 +51,8 @@ public class User extends Auditable {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
+    public void refreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
 }
