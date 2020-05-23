@@ -21,6 +21,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findByDeviceTokenAndRolesContaining(String deviceToken, String role) {
+        return userRepository.findByDeviceTokenAndRolesContaining(deviceToken, role);
+    }
+
+    @Override
     public Optional<User> findByUsernameAndRawPassword(String username, String rawPassword) {
         return findByUsername(username)
                 .map(user -> (passwordEncoder.matches(rawPassword, user.getPassword())) ? user : null);
@@ -30,4 +35,5 @@ public class UserServiceImpl implements UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
+
 }
