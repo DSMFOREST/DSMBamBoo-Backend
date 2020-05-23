@@ -3,6 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${MYSQL_URL}
   jpa:
+    generate-ddl: true
     hibernate:
       ddl-auto: update
   jackson:
