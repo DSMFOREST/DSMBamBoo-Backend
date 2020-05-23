@@ -37,7 +37,6 @@ public class Article extends Auditable {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "approver_id", referencedColumnName = "id")
     private User approver;
 
     @Column(nullable = false, name = "active_flag")
