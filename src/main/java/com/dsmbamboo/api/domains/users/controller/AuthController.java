@@ -1,5 +1,6 @@
 package com.dsmbamboo.api.domains.users.controller;
 
+import com.dsmbamboo.api.domains.users.dto.AnonymousUserDeviceToken;
 import com.dsmbamboo.api.domains.users.dto.UserTokenResponse;
 import com.dsmbamboo.api.domains.users.dto.UserSignInRequest;
 import com.dsmbamboo.api.domains.users.service.AuthService;
@@ -18,9 +19,14 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/signin")
-    public UserTokenResponse signIn(@RequestBody @Valid UserSignInRequest data) {
-        return authService.signIn(data);
+    @PostMapping("/admin")
+    public UserTokenResponse admin(@RequestBody @Valid UserSignInRequest data) {
+        return authService.admin(data);
+    }
+
+    @PostMapping("/anonymous")
+    public UserTokenResponse anonymous(@RequestBody @Valid AnonymousUserDeviceToken data) {
+        return authService.anonymous(data);
     }
 
 }
