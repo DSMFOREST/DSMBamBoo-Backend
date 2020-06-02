@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -64,9 +65,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     .getSubject();
 
             if (username != null) {
-                User user = userRepository.findByUsername(username);
-                UserPrincipal principal = new UserPrincipal(user);
-                return new UsernamePasswordAuthenticationToken(username, null, principal.getAuthorities());
+                return userRepository.findByUsername(username)
+                        .map(user -> {
+                            UserPrincipal principal = new UserPrincipal(user);
+                            return new UsernamePasswordAuthenticationToken(username, null, principal.getAuthorities());
+                        }).orElseThrow(() -> new UsernameNotFoundException("username has not found"));
             }
             return null;
         }
