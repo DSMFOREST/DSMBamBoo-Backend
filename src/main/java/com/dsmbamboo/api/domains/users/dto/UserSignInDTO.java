@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-
 import javax.validation.constraints.NotEmpty;
 
 @Data
@@ -22,5 +21,5 @@ public class UserSignInDTO {
     public UsernamePasswordAuthenticationToken getAuthenticationToken() {
         return new UsernamePasswordAuthenticationToken(username, password);
     }
-  
+
 }
