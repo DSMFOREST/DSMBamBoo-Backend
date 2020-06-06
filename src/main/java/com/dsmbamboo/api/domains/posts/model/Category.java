@@ -1,23 +1,22 @@
 package com.dsmbamboo.api.domains.posts.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.dsmbamboo.api.domains.commons.model.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 
-@Data
-@Builder
 @Entity
+@Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class Category extends Auditable {
 
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

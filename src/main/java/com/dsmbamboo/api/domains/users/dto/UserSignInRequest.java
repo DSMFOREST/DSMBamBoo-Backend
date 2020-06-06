@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSignInDTO {
+public class UserSignInRequest {
 
     @NotEmpty
     private String username;

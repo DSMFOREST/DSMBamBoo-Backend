@@ -1,7 +1,7 @@
 package com.dsmbamboo.api.domains.users.controller;
 
-import com.dsmbamboo.api.domains.users.dto.UserAuthTokenDTO;
-import com.dsmbamboo.api.domains.users.dto.UserSignInDTO;
+import com.dsmbamboo.api.domains.users.dto.UserTokenResponse;
+import com.dsmbamboo.api.domains.users.dto.UserSignInRequest;
 import com.dsmbamboo.api.domains.users.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signin")
-    public UserAuthTokenDTO signIn(@RequestBody @Valid UserSignInDTO data) {
+    public UserTokenResponse signIn(@RequestBody @Valid UserSignInRequest data) {
         return authService.signIn(data);
     }
 
