@@ -21,4 +21,5 @@ public class UserPrincipalDetailsService implements UserDetailsService {
                 .map(UserPrincipal::new)
                 .orElseThrow(() -> new UsernameNotFoundException("Username:" + username + "not found."));
     }
+
 }
