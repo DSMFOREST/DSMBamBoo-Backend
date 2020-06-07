@@ -1,25 +1,22 @@
 package com.dsmbamboo.api.domains.users.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import javax.validation.constraints.NotEmpty;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserSignInRequest {
 
-    @NotEmpty
-    private String username;
-
-    @NotEmpty
-    private String password;
+    @NotEmpty(message = "Device token must not be null or empty.")
+    private String deviceToken;
 
     public UsernamePasswordAuthenticationToken getAuthenticationToken() {
-        return new UsernamePasswordAuthenticationToken(username, password);
+        return new UsernamePasswordAuthenticationToken(deviceToken, deviceToken);
     }
 
 }

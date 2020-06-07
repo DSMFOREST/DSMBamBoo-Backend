@@ -1,8 +1,8 @@
 package com.dsmbamboo.api.domains.users.service;
 
-import com.dsmbamboo.api.domains.users.dto.AnonymousUserDeviceToken;
-import com.dsmbamboo.api.domains.users.dto.UserTokenResponse;
 import com.dsmbamboo.api.domains.users.dto.UserSignInRequest;
+import com.dsmbamboo.api.domains.users.dto.UserTokenResponse;
+import com.dsmbamboo.api.domains.users.dto.AdminSignInRequest;
 import com.dsmbamboo.api.domains.users.model.User;
 import com.dsmbamboo.api.domains.users.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public UserTokenResponse admin(UserSignInRequest data) {
+    public UserTokenResponse adminSignIn(AdminSignInRequest data) {
         try {
             authenticationManager.authenticate(data.getAuthenticationToken());
         } catch (AuthenticationException e) {
@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserTokenResponse anonymous(AnonymousUserDeviceToken data) {
+    public UserTokenResponse userSignIn(UserSignInRequest data) {
         return userService.findByDeviceTokenAndRolesContaining(data.getDeviceToken(), "ROLE_ANONYMOUS")
                 .or(() -> Optional.of(User.anonymous(data.getDeviceToken(), passwordEncoder.encode(data.getDeviceToken()))))
                 .map(user -> {
