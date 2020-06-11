@@ -10,13 +10,16 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSignInRequest {
+public class AdminSignInRequest {
 
-    @NotEmpty(message = "Device token must not be null or empty.")
-    private String deviceToken;
+    @NotEmpty
+    private String username;
+
+    @NotEmpty
+    private String password;
 
     public UsernamePasswordAuthenticationToken getAuthenticationToken() {
-        return new UsernamePasswordAuthenticationToken(deviceToken, deviceToken);
+        return new UsernamePasswordAuthenticationToken(username, password);
     }
 
 }

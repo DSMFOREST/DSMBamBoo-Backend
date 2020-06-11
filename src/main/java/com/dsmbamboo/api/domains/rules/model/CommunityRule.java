@@ -3,10 +3,7 @@ package com.dsmbamboo.api.domains.rules.model;
 import com.dsmbamboo.api.domains.commons.model.Auditable;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Builder
@@ -16,7 +13,7 @@ import javax.persistence.Id;
 public class CommunityRule extends Auditable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column

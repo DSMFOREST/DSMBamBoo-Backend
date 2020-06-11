@@ -1,15 +1,15 @@
 package com.dsmbamboo.api.domains.users.model;
 
 import com.dsmbamboo.api.domains.commons.model.Auditable;
-import com.dsmbamboo.api.utils.StringListConverter;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -20,7 +20,8 @@ import java.util.List;
 public class User extends Auditable {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column
     private String username;
@@ -28,16 +29,14 @@ public class User extends Auditable {
     @Column
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column
     private String email;
 
     @Column
-    @Convert(converter = StringListConverter.class)
-    private List<String> roles;
+    private String roles;
 
     @Column
-    @Convert(converter = StringListConverter.class)
-    private List<String> permissions;
+    private String permissions;
 
     @Column(name = "active_flag")
     private boolean isActive;
@@ -53,6 +52,25 @@ public class User extends Auditable {
 
     public void refreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public static User anonymous(String deviceToken, String encodedPassword) {
+        return User.builder()
+                .username(deviceToken)
+                .password(encodedPassword)
+                .deviceToken(deviceToken)
+                .roles("ROLE_ANONYMOUS")
+                .permissions("READ_UPLOADED_ARTICLE,CREATE_UPLOAD_REQUEST")
+                .isActive(true)
+                .build();
+    }
+
+    public List<String> getRoles() {
+        return Arrays.asList(this.roles.split(","));
+    }
+
+    public List<String> getPermissions() {
+        return Arrays.asList(this.permissions.split(","));
     }
 
 }
