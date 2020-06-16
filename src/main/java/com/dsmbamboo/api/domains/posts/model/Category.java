@@ -23,4 +23,7 @@ public class Category extends Auditable {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, name = "admin_only_flag")
+    private boolean isAdminOnly;
+
 }
