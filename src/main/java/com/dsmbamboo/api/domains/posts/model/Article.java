@@ -33,8 +33,8 @@ public class Article extends Auditable {
     @Column
     private String facebookLink;
 
-    @ManyToOne
-    private Category category;
+    @OneToMany
+    private List<Category> categories;
 
     @ManyToOne
     private User approver;
