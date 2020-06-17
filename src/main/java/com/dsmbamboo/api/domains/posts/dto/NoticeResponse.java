@@ -28,7 +28,7 @@ public class NoticeResponse {
     private String recentCreatedAt;
 
     public NoticeResponse(Article article) {
-        this.id = article.getId();
+        this.id = article.getPublishedId();
         this.title = article.getTitle();
         this.content = article.getContent();
         this.facebookLink = article.getFacebookLink();
