@@ -23,6 +23,8 @@ public class NoticeResponse {
     private List<String> images;
     private LocalDateTime createdAt;
     private String recentCreatedAt;
+    private LocalDateTime approvedAt;
+    private String recentApprovedAt;
 
     public NoticeResponse(Article article) {
         this.id = article.getPublishedId();
@@ -35,6 +37,8 @@ public class NoticeResponse {
                 .stream().map(Image::getUrl).collect(Collectors.toList());
         this.createdAt = article.getCreatedAt();
         this.recentCreatedAt = TimeCalculator.toRecentKorean(article.getCreatedAt());
+        this.approvedAt = article.getModifiedAt();
+        this.recentApprovedAt = TimeCalculator.toRecentKorean(article.getModifiedAt());
     }
 
 }
