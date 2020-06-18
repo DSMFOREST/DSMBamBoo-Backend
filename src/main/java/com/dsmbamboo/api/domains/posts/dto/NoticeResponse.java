@@ -4,7 +4,6 @@ import com.dsmbamboo.api.domains.images.model.Image;
 import com.dsmbamboo.api.domains.posts.model.Article;
 import com.dsmbamboo.api.domains.posts.model.Category;
 import com.dsmbamboo.api.utils.TimeCalculator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,8 +21,6 @@ public class NoticeResponse {
     private String facebookLink;
     private List<String> categories;
     private List<String> images;
-
-    @JsonFormat(timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
     private String recentCreatedAt;
 
