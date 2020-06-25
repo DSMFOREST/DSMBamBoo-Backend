@@ -13,10 +13,10 @@
 
 ## What is the 🌱 DSMBAMBOO?
 
-> DSMBAMBOO is in-school community that is provides full-anonymity.
+> DSMBAMBOO is in-school community that provides full-anonymity.
 
-It is developed and operated by [DSM](http://dsm.hs.kr) students. When you post in our community along with admin's approval, your posts uploaded our website and [Facebook Page](https://facebook.com/dsmbamboo).
-You can share your discussion anonymously for many students in [DSM](http://dsm.hs.kr). No signing up and viewing advertisement needed.
+It is developed and operated by [DSM](http://dsm.hs.kr) students. When you post in our community with admin's approval, your posts uploaded our website and [Facebook Page](https://facebook.com/dsmbamboo).
+You can share your discussion anonymously to many students in [DSM](http://dsm.hs.kr). No signing up and viewing advertisement needed.
 
 ## Contributors in 🌱 DSMBAMBOO Backend
 
