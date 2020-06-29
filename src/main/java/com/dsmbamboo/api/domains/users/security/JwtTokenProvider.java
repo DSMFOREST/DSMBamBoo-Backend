@@ -75,12 +75,12 @@ public class JwtTokenProvider {
                 ? bearerToken.substring(7) : null;
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateAccessToken(String accessToken) {
         try {
             return JWT.require(Algorithm.HMAC512(secretKey))
                     .withIssuer("dsmbamboo")
                     .build()
-                    .verify(token)
+                    .verify(accessToken)
                     .getExpiresAt()
                     .after(new Date());
         } catch (JWTVerificationException | IllegalArgumentException e) {
