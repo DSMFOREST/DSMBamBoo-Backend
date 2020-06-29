@@ -10,6 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
     Optional<User> findByDeviceTokenAndRolesContaining(String deviceToken, String role);
-    Optional<User> findByUsernameAndPassword(String username, String password);
+    Optional<User> findByUsernameAndRefreshToken(String username, String refreshToken);
 
 }
