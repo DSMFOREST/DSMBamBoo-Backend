@@ -57,6 +57,16 @@ public class User extends Auditable {
         this.refreshToken = refreshToken;
     }
 
+    public void updateDeviceToken(String deviceToken) {
+        if (this.isAnonymous())
+            this.username = deviceToken;
+        this.deviceToken = deviceToken;
+    }
+
+    private boolean isAnonymous() {
+        return this.getRoles().contains("ROLE_ANONYMOUS");
+    }
+
     public static User anonymous(String deviceToken, String encodedPassword) {
         return User.builder()
                 .username(deviceToken)

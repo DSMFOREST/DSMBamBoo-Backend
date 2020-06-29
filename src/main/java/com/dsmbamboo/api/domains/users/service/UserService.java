@@ -15,4 +15,6 @@ public interface UserService {
 
     User save(User user);
 
+    void updateDeviceToken(String deviceToken);
+
 }
