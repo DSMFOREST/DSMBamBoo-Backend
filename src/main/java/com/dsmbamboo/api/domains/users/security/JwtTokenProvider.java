@@ -88,4 +88,17 @@ public class JwtTokenProvider {
         }
     }
 
+    public String validateRefreshTokenAndGetIdentity(String refreshToken) {
+        try {
+            return JWT.require(Algorithm.HMAC512(secretKey))
+                    .withIssuer("dsmbamboo")
+                    .withArrayClaim("roles", List.of("ROLE_REFRESH_TOKEN").toArray(String[]::new))
+                    .build()
+                    .verify(refreshToken)
+                    .getSubject();
+        } catch (JWTVerificationException | IllegalArgumentException e) {
+            throw new InvalidUserAuthenticationException();
+        }
+    }
+
 }
