@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -41,9 +42,11 @@ public class User extends Auditable {
     @Column(name = "active_flag")
     private boolean isActive;
 
+    @Size(max = 1000)
     @Column
     private String deviceToken;
 
+    @Size(max = 1000)
     @Column
     private String refreshToken;
 
