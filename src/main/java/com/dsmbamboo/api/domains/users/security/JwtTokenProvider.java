@@ -40,28 +40,30 @@ public class JwtTokenProvider {
     public String createAccessToken(String username, List<String> roles) {
         return JWT.create()
                 .withSubject(username)
-                .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpiration))
+                .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpiration * 1000))
                 .withIssuedAt(new Date())
+                .withIssuer("dsmbamboo")
                 .withArrayClaim("roles", roles.toArray(String[]::new))
-                .sign(Algorithm.HMAC512(secretKey.getBytes()));
+                .sign(Algorithm.HMAC512(secretKey));
     }
 
     public String createRefreshToken(String username) {
         return JWT.create()
                 .withSubject(username)
-                .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration * 1000))
                 .withIssuedAt(new Date())
+                .withIssuer("dsmbamboo")
                 .withArrayClaim("roles", List.of("ROLE_REFRESH_TOKEN").toArray(String[]::new))
-                .sign(Algorithm.HMAC512(secretKey.getBytes()));
+                .sign(Algorithm.HMAC512(secretKey));
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails =  userDetailsService.loadUserByUsername(getUsername(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     public String getUsername(String token) {
-        return JWT.require(Algorithm.HMAC512(secretKey.getBytes()))
+        return JWT.require(Algorithm.HMAC512(secretKey))
                 .build()
                 .verify(token)
                 .getSubject();
@@ -69,15 +71,14 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(header);
-        if (bearerToken != null && bearerToken.startsWith(prefix)) {
-            return bearerToken.substring(7);
-        }
-        return null;
+        return (bearerToken != null && bearerToken.startsWith(prefix))
+                ? bearerToken.substring(7) : null;
     }
 
     public boolean validateToken(String token) {
         try {
-            return JWT.require(Algorithm.HMAC512(secretKey.getBytes()))
+            return JWT.require(Algorithm.HMAC512(secretKey))
+                    .withIssuer("dsmbamboo")
                     .build()
                     .verify(token)
                     .getExpiresAt()
