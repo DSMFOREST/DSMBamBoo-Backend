@@ -21,3 +21,12 @@ auth:
     exp:
       access: ${JWT_EXP_ACCESS}
       refresh: ${JWT_EXP_REFRESH}
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    region: ${AWS_REGION}
+    s3:
+      bucket: ${AWS_S3_BUCKET_NAME}
