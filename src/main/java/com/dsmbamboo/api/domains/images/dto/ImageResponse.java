@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageResponse {
-
+  
     public static final String IMAGE_URL_PREFIX = "https://img.dsmbamboo.com/";
 
     private Long id;

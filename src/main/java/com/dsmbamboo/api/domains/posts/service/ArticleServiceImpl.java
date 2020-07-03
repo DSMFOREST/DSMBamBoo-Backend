@@ -24,4 +24,5 @@ public class ArticleServiceImpl implements ArticleService {
     public Optional<Article> findByCategories_NameAndPublishedId(String categoryName, Long publishedId) {
         return articleRepository.findAllByCategories_NameAndPublishedId(categoryName, publishedId);
     }
+  
 }
