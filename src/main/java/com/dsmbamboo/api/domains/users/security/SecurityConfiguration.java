@@ -30,13 +30,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                    .antMatchers("/admin/auth/signin").permitAll()
-                    .antMatchers("/auth/signin").permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
+                        .antMatchers("/admin/auth/signin").permitAll()
+                        .antMatchers("/auth/signin").permitAll()
+                        .anyRequest().authenticated().and()
+                .apply(new JwtConfigurer(jwtTokenProvider)).and()
+                .apply(new ExceptionConfigurer());
     }
 
     @Bean
