@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +33,7 @@ public class JwtTokenProvider {
     @Value("${auth.jwt.prefix}")
     private String prefix;
 
-    private final UserDetailsService userDetailsService;
+    private final UserPrincipalDetailsService userDetailsService;
 
     public String createAccessToken(String username, List<String> roles) {
         return JWT.create()
@@ -58,7 +56,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));
+        UserPrincipal userDetails = userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

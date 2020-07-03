@@ -13,3 +13,12 @@ auth:
     exp:
       access: 100
       refresh: 300
+
+cloud:
+  aws:
+    credentials:
+      accessKey: testaccess
+      secretKey: testsecret
+    region: testregion
+    s3:
+      bucket: testbucket
