@@ -3,7 +3,10 @@ package com.dsmbamboo.api.domains.posts.model;
 import com.dsmbamboo.api.domains.commons.model.Auditable;
 import com.dsmbamboo.api.domains.images.model.Image;
 import com.dsmbamboo.api.domains.users.model.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -33,7 +36,7 @@ public class Article extends Auditable {
     @Column
     private String facebookLink;
 
-    @OneToMany
+    @ManyToMany
     private List<Category> categories;
 
     @ManyToOne

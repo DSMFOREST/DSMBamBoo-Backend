@@ -1,7 +1,10 @@
 package com.dsmbamboo.api.domains.images.model;
 
 import com.dsmbamboo.api.domains.commons.model.Auditable;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -13,10 +16,8 @@ import javax.persistence.*;
 public class Image extends Auditable {
 
     @Id
-    private Long articleId;
-
-    @Column
-    private Integer sequence_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column
     private String url;
