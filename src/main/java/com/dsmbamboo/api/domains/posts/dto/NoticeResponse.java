@@ -1,6 +1,6 @@
 package com.dsmbamboo.api.domains.posts.dto;
 
-import com.dsmbamboo.api.domains.images.model.Image;
+import com.dsmbamboo.api.domains.images.dto.ImageResponse;
 import com.dsmbamboo.api.domains.posts.model.Article;
 import com.dsmbamboo.api.domains.posts.model.Category;
 import com.dsmbamboo.api.utils.TimeCalculator;
@@ -34,7 +34,7 @@ public class NoticeResponse {
         this.categories = article.getCategories()
                 .stream().map(Category::getName).collect(Collectors.toList());
         this.images = article.getImages()
-                .stream().map(Image::getUrl).collect(Collectors.toList());
+                .stream().map(image -> ImageResponse.IMAGE_URL_PREFIX.concat(image.getUrl())).collect(Collectors.toList());
         this.createdAt = article.getCreatedAt();
         this.recentCreatedAt = TimeCalculator.toRecentKorean(article.getCreatedAt());
         this.approvedAt = article.getModifiedAt();

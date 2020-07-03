@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
@@ -18,4 +20,9 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findAllByCategories_Name(categoryName, pageable);
     }
 
+    @Override
+    public Optional<Article> findByCategories_NameAndPublishedId(String categoryName, Long publishedId) {
+        return articleRepository.findAllByCategories_NameAndPublishedId(categoryName, publishedId);
+    }
+  
 }
