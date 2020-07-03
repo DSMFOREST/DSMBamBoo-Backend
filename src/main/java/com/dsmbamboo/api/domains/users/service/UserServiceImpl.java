@@ -32,6 +32,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findByUsernameAndRefreshToken(String username, String refreshToken) {
+        return userRepository.findByUsernameAndRefreshToken(username, refreshToken);
+    }
+
+    @Override
     public User save(User user) {
         return userRepository.save(user);
     }
