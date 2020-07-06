@@ -16,6 +16,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Category extends Auditable {
 
+    public static final Long NOTICE_ID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
