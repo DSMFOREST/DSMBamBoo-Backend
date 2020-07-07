@@ -6,6 +6,8 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate.default_batch_fetch_size: 1000
   jackson:
     property-naming-strategy: SNAKE_CASE
   servlet:
