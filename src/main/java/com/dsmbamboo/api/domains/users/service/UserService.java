@@ -8,6 +8,7 @@ import java.util.Optional;
 @Service
 public interface UserService {
 
+    Optional<User> findById(Long id);
     Optional<User> findByUsername(String username);
     Optional<User> findByDeviceTokenAndRolesContaining(String deviceToken, String role);
     Optional<User> findByUsernameAndRawPassword(String username, String password);
