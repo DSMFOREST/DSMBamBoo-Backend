@@ -26,9 +26,9 @@ public class NoticeController {
                 .map(NoticeResponse::new);
     }
 
-    @GetMapping("/{noticeId}")
-    public NoticeResponse findByNoticeId(@PathVariable @Valid Long noticeId) {
-        return noticeService.findByNoticeId(noticeId)
+    @GetMapping("/{publishedId}")
+    public NoticeResponse findByNoticeId(@PathVariable @Valid Long publishedId) {
+        return noticeService.findByNoticeId(publishedId)
                 .map(NoticeResponse::new)
                 .orElseThrow(ArticleNotFoundException::new);
     }

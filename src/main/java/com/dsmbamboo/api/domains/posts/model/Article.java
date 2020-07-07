@@ -33,6 +33,10 @@ public class Article extends Auditable {
     @Column(nullable = false)
     private String content;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private ArticleType type;
+
     @Column
     private String facebookLink;
 
@@ -45,8 +49,8 @@ public class Article extends Auditable {
     @Column(nullable = false, name = "active_flag")
     private boolean isActive;
 
-    @OneToMany
-    @OrderColumn(name = "sequence_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @OrderColumn
     private List<Image> images;
 
 }

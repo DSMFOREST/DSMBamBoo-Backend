@@ -4,7 +4,12 @@ import com.dsmbamboo.api.domains.posts.dto.CreateArticleRequest;
 import com.dsmbamboo.api.domains.posts.dto.NoticeResponse;
 import com.dsmbamboo.api.domains.posts.exception.InvalidCategoryException;
 import com.dsmbamboo.api.domains.posts.model.Article;
+import com.dsmbamboo.api.domains.posts.model.ArticleType;
 import com.dsmbamboo.api.domains.posts.model.Category;
+import com.dsmbamboo.api.domains.users.exception.UserNotFoundException;
+import com.dsmbamboo.api.domains.users.security.AuthenticationFacade;
+import com.dsmbamboo.api.domains.users.security.UserPrincipal;
+import com.dsmbamboo.api.domains.users.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,18 +22,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
 
-    private static final String CATEGORY_NAME = "공지사항";
+    private final UserService userService;
     private final ArticleService articleService;
+    private final AuthenticationFacade authenticationFacade;
     private final PublishedIdGenerator publishedIdGenerator;
 
     @Override
     public Page<Article> findAll(Pageable pageable) {
-        return articleService.findAllByCategories_Name(CATEGORY_NAME, pageable);
+        return articleService.findAllArticlesByType(ArticleType.NOTICE, pageable);
     }
 
     @Override
     public Optional<Article> findByNoticeId(Long noticeId) {
-        return articleService.findByCategories_NameAndPublishedId(CATEGORY_NAME, noticeId);
+        return articleService.findArticleByTypeAndPublishedId(ArticleType.NOTICE, noticeId);
     }
 
     @Override
@@ -36,8 +42,14 @@ public class NoticeServiceImpl implements NoticeService {
         if (!isContainsNoticeCategory(request.getCategories()))
             throw new InvalidCategoryException();
 
-        Article article = articleService.create(request, publishedIdGenerator.getNextNoticePublishedId());
-        return new NoticeResponse(article);
+        Long userId = ((UserPrincipal) authenticationFacade.getAuthentication().getPrincipal()).getId();
+        return userService.findById(userId)
+                .map(approver -> {
+                    long publishedId = publishedIdGenerator.getNextNoticePublishedId();
+                    return articleService.create(request, ArticleType.NOTICE, publishedId, approver);
+                })
+                .map(NoticeResponse::new)
+                .orElseThrow(UserNotFoundException::new);
     }
 
     private boolean isContainsNoticeCategory(List<Long> categories) {
