@@ -10,7 +10,8 @@ import java.util.Optional;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    Page<Article> findAllByCategories_Name(String categoryName, Pageable pageable);
-    Optional<Article> findAllByCategories_NameAndPublishedId(String categoryName, Long publishedId);
+    Page<Article> findAllByIsActiveTrueAndType(ArticleType type, Pageable pageable);
+    Optional<Article> findByIsActiveTrueAndTypeAndPublishedId(ArticleType type, Long publishedId);
+    Optional<Article> findByIsActiveTrueAndTypeAndId(ArticleType type, Long id);
 
 }
