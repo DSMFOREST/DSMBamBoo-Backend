@@ -17,9 +17,6 @@ public class CommunityRule extends Auditable {
     private Long id;
 
     @Column
-    private String title;
-
-    @Column
     private String contents;
 
     @Column(name = "active_flag")
