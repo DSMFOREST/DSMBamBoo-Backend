@@ -23,7 +23,7 @@ public class DraftResponse {
     private String recentCreatedAt;
 
     public DraftResponse(Article article) {
-        this.id = article.getPublishedId();
+        this.id = article.getId();
         this.title = article.getTitle();
         this.content = article.getContent();
         this.facebookLink = article.getFacebookLink();
