@@ -2,14 +2,14 @@ package com.dsmbamboo.api.domains.questions.controller;
 
 import com.dsmbamboo.api.domains.questions.dto.CreateQuestionRequest;
 import com.dsmbamboo.api.domains.questions.dto.QuestionResponse;
+import com.dsmbamboo.api.domains.questions.exception.QuestionNotFoundException;
 import com.dsmbamboo.api.domains.questions.service.StudentQuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/students/questions")
@@ -21,9 +21,15 @@ public class QuestionController {
     @PostMapping
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.CREATED)
-    public QuestionResponse create(CreateQuestionRequest request) {
+    public QuestionResponse create(@RequestBody @Valid CreateQuestionRequest request) {
         return new QuestionResponse(questionService.create(request));
     }
 
+    @GetMapping
+    public QuestionResponse findByRandomId() {
+        return questionService.findByRandomId()
+                .map(QuestionResponse::new)
+                .orElseThrow(QuestionNotFoundException::new);
+    }
 
 }
