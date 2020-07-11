@@ -17,5 +17,6 @@ public interface ArticleService {
     Optional<Article> findArticleByTypeAndId(ArticleType type, Long id);
 
     Article create(CreateArticleRequest request, ArticleType type, Long publishedId, User approver);
+    Article save(Article article);
 
 }
