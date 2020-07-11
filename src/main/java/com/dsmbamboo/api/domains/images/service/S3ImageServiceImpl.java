@@ -52,7 +52,6 @@ public class S3ImageServiceImpl implements ImageService {
     }
 
     private String upload(Long userId, MultipartFile image) {
-        System.out.println(image.getOriginalFilename());
         String filename = userId + "/" + UUID.randomUUID().toString() + "." + image.getContentType().substring(6);
         try {
             amazonS3.putObject(new PutObjectRequest(bucket, filename, image.getInputStream(), null)
