@@ -29,8 +29,8 @@ public class DraftController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DraftResponse create(@RequestBody @Valid CreateArticleRequest request) {
-        return new DraftResponse(draftService.create(request));
+    public DraftResponse create(@RequestHeader("X-Document-Key") String documentKey, @RequestBody @Valid CreateArticleRequest request) {
+        return new DraftResponse(draftService.create(documentKey, request));
     }
 
     @GetMapping("/{articleId}")

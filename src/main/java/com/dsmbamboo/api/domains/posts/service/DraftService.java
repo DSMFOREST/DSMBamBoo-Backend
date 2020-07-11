@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface DraftService {
 
     Page<Article> findAll(Pageable pageable);
-    Article create(CreateArticleRequest request);
+    Article create(String documentKey, CreateArticleRequest request);
     Optional<Article> findByArticleId(Long articleId);
 
 }
