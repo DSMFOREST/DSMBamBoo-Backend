@@ -27,6 +27,9 @@ public class JwtTokenProvider {
     @Value("${auth.jwt.exp.refresh}")
     private int refreshTokenExpiration;
 
+    @Value("${auth.jwt.exp.document}")
+    private int documentKeyExpiration;
+
     @Value("${auth.jwt.header}")
     private String header;
 

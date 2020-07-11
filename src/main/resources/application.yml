@@ -27,6 +27,7 @@ auth:
     exp:
       access: ${JWT_EXP_ACCESS}
       refresh: ${JWT_EXP_REFRESH}
+      document: ${JWT_EXP_DOCUMENT}
 
 cloud:
   aws:
