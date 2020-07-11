@@ -41,4 +41,12 @@ public class DraftController {
                 .orElseThrow(ArticleNotFoundException::new);
     }
 
+    @PatchMapping("/{articleId}/approve")
+    @Secured("ROLE_ADMIN")
+    public DraftResponse approve(@PathVariable @Valid Long articleId) {
+        return draftService.approve(articleId)
+                .map(DraftResponse::new)
+                .orElseThrow(ArticleNotFoundException::new);
+    }
+
 }

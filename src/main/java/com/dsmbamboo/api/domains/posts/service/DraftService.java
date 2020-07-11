@@ -13,4 +13,6 @@ public interface DraftService {
     Article create(String documentKey, CreateArticleRequest request);
     Optional<Article> findByArticleId(Long articleId);
 
+    Optional<Article> approve(Long articleId);
+
 }

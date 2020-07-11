@@ -4,7 +4,11 @@ import com.dsmbamboo.api.domains.posts.dto.CreateArticleRequest;
 import com.dsmbamboo.api.domains.posts.exception.InvalidCategoryException;
 import com.dsmbamboo.api.domains.posts.model.Article;
 import com.dsmbamboo.api.domains.posts.model.ArticleType;
+import com.dsmbamboo.api.domains.users.exception.UserNotFoundException;
+import com.dsmbamboo.api.domains.users.security.AuthenticationFacade;
 import com.dsmbamboo.api.domains.users.security.JwtTokenProvider;
+import com.dsmbamboo.api.domains.users.security.UserPrincipal;
+import com.dsmbamboo.api.domains.users.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +20,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DraftServiceImpl implements DraftService {
 
+    private final UserService userService;
     private final ArticleService articleService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final AuthenticationFacade authenticationFacade;
+    private final PublishedIdGenerator publishedIdGenerator;
 
     @Override
     public Page<Article> findAll(Pageable pageable) {
@@ -35,6 +42,20 @@ public class DraftServiceImpl implements DraftService {
     @Override
     public Optional<Article> findByArticleId(Long articleId) {
         return articleService.findArticleByTypeAndId(ArticleType.DRAFT, articleId);
+    }
+
+    @Override
+    public Optional<Article> approve(Long articleId) {
+        return articleService.findArticleByTypeAndId(ArticleType.DRAFT, articleId)
+                .map(article -> {
+                    Long approverId = ((UserPrincipal) authenticationFacade.getAuthentication().getPrincipal()).getId();
+                    return userService.findById(approverId)
+                            .map(approver -> {
+                                long publishedId = publishedIdGenerator.getNextNoticePublishedId();
+                                return articleService.save(article.approve(approver, publishedId));
+                            })
+                            .orElseThrow(UserNotFoundException::new);
+                });
     }
 
 }
