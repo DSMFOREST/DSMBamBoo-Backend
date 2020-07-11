@@ -1,5 +1,7 @@
 package com.dsmbamboo.api.domains.questions.controller;
 
+import com.dsmbamboo.api.domains.questions.dto.CreateDocumentKeyRequest;
+import com.dsmbamboo.api.domains.questions.dto.DocumentKeyResponse;
 import com.dsmbamboo.api.domains.questions.dto.CreateQuestionRequest;
 import com.dsmbamboo.api.domains.questions.dto.QuestionResponse;
 import com.dsmbamboo.api.domains.questions.exception.QuestionNotFoundException;
@@ -30,6 +32,11 @@ public class QuestionController {
         return questionService.findByRandomId()
                 .map(QuestionResponse::new)
                 .orElseThrow(QuestionNotFoundException::new);
+    }
+
+    @PostMapping("/{questionId}/answer")
+    public DocumentKeyResponse generateDocumentKey(@PathVariable Long questionId, @RequestBody @Valid CreateDocumentKeyRequest request) {
+        return new DocumentKeyResponse(questionService.generateDocumentKey(questionId, request));
     }
 
 }

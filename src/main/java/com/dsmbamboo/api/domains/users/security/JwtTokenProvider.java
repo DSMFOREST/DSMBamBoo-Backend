@@ -27,6 +27,9 @@ public class JwtTokenProvider {
     @Value("${auth.jwt.exp.refresh}")
     private int refreshTokenExpiration;
 
+    @Value("${auth.jwt.exp.document}")
+    private int documentKeyExpiration;
+
     @Value("${auth.jwt.header}")
     private String header;
 
@@ -52,6 +55,15 @@ public class JwtTokenProvider {
                 .withIssuedAt(new Date())
                 .withIssuer("dsmbamboo")
                 .withArrayClaim("roles", List.of("ROLE_REFRESH_TOKEN").toArray(String[]::new))
+                .sign(Algorithm.HMAC512(secretKey));
+    }
+
+    public String createDocumentKey(String username) {
+        return JWT.create()
+                .withSubject(username)
+                .withExpiresAt(new Date(System.currentTimeMillis() + documentKeyExpiration * 1000))
+                .withIssuedAt(new Date())
+                .withIssuer("dsmbamboo.document_key")
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
