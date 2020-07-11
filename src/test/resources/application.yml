@@ -13,6 +13,7 @@ auth:
     exp:
       access: 100
       refresh: 300
+      document: 300
 
 cloud:
   aws:
