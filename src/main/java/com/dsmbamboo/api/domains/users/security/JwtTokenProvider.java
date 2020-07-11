@@ -3,6 +3,7 @@ package com.dsmbamboo.api.domains.users.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.dsmbamboo.api.domains.posts.exception.InvalidDocumentKeyException;
 import com.dsmbamboo.api.domains.users.exception.InvalidUserAuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -108,6 +109,18 @@ public class JwtTokenProvider {
                     .getSubject();
         } catch (JWTVerificationException | IllegalArgumentException e) {
             throw new InvalidUserAuthenticationException();
+        }
+    }
+
+    public void validateDocumentKey(String documentKey) {
+        try {
+            JWT.require(Algorithm.HMAC512(secretKey))
+                    .withIssuer("dsmbamboo.document_key")
+                    .build()
+                    .verify(documentKey)
+                    .getSubject();
+        } catch (JWTVerificationException | IllegalArgumentException e) {
+            throw new InvalidDocumentKeyException();
         }
     }
 

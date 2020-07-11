@@ -1,12 +1,9 @@
 package com.dsmbamboo.api.domains.posts.service;
 
 import com.dsmbamboo.api.domains.posts.dto.CreateArticleRequest;
-import com.dsmbamboo.api.domains.posts.dto.NoticeResponse;
 import com.dsmbamboo.api.domains.posts.exception.InvalidCategoryException;
 import com.dsmbamboo.api.domains.posts.model.Article;
 import com.dsmbamboo.api.domains.posts.model.ArticleType;
-import com.dsmbamboo.api.domains.posts.model.Category;
-import com.dsmbamboo.api.domains.users.exception.UserNotFoundException;
 import com.dsmbamboo.api.domains.users.security.AuthenticationFacade;
 import com.dsmbamboo.api.domains.users.security.UserPrincipal;
 import com.dsmbamboo.api.domains.users.service.UserService;
@@ -16,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,8 +36,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     @Transactional
-    public NoticeResponse create(CreateArticleRequest request) {
-        if (!isContainsNoticeCategory(request.getCategories()))
+    public Optional<Article> create(CreateArticleRequest request) {
+        if (!NoticeService.isContainsNoticeCategory(request.getCategories()))
             throw new InvalidCategoryException();
 
         Long userId = ((UserPrincipal) authenticationFacade.getAuthentication().getPrincipal()).getId();
@@ -49,13 +45,7 @@ public class NoticeServiceImpl implements NoticeService {
                 .map(approver -> {
                     long publishedId = publishedIdGenerator.getNextNoticePublishedId();
                     return articleService.create(request, ArticleType.NOTICE, publishedId, approver);
-                })
-                .map(NoticeResponse::new)
-                .orElseThrow(UserNotFoundException::new);
-    }
-
-    private boolean isContainsNoticeCategory(List<Long> categories) {
-        return categories.contains(Category.NOTICE_ID);
+                });
     }
 
 }
