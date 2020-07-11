@@ -60,4 +60,9 @@ public class Article extends Auditable {
         return this;
     }
 
+    public Article disapprove() {
+        this.isActive = false;
+        return this;
+    }
+
 }
