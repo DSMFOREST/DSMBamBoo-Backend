@@ -14,5 +14,6 @@ public interface DraftService {
     Optional<Article> findByArticleId(Long articleId);
 
     Optional<Article> approve(Long articleId);
+    Optional<Article> disapprove(Long articleId);
 
 }

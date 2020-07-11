@@ -45,8 +45,8 @@ public class DraftServiceImpl implements DraftService {
     }
 
     @Override
-    public Optional<Article> approve(Long articleId) {
-        return articleService.findArticleByTypeAndId(ArticleType.DRAFT, articleId)
+    public Optional<Article> approve(Long draftId) {
+        return articleService.findArticleByTypeAndId(ArticleType.DRAFT, draftId)
                 .map(article -> {
                     Long approverId = ((UserPrincipal) authenticationFacade.getAuthentication().getPrincipal()).getId();
                     return userService.findById(approverId)
@@ -54,6 +54,17 @@ public class DraftServiceImpl implements DraftService {
                                 long publishedId = publishedIdGenerator.getNextNoticePublishedId();
                                 return articleService.save(article.approve(approver, publishedId));
                             })
+                            .orElseThrow(UserNotFoundException::new);
+                });
+    }
+
+    @Override
+    public Optional<Article> disapprove(Long draftId) {
+        return articleService.findArticleByTypeAndId(ArticleType.DRAFT, draftId)
+                .map(article -> {
+                    Long approverId = ((UserPrincipal) authenticationFacade.getAuthentication().getPrincipal()).getId();
+                    return userService.findById(approverId)
+                            .map(approver -> articleService.save(article.disapprove()))
                             .orElseThrow(UserNotFoundException::new);
                 });
     }

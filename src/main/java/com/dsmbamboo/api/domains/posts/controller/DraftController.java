@@ -33,18 +33,26 @@ public class DraftController {
         return new DraftResponse(draftService.create(documentKey, request));
     }
 
-    @GetMapping("/{articleId}")
+    @GetMapping("/{draftId}")
     @Secured("ROLE_ADMIN")
-    public DraftResponse findByDraftId(@PathVariable @Valid Long articleId) {
-        return draftService.findByArticleId(articleId)
+    public DraftResponse findByDraftId(@PathVariable @Valid Long draftId) {
+        return draftService.findByArticleId(draftId)
                 .map(DraftResponse::new)
                 .orElseThrow(ArticleNotFoundException::new);
     }
 
-    @PatchMapping("/{articleId}/approve")
+    @PatchMapping("/{draftId}/approve")
     @Secured("ROLE_ADMIN")
-    public DraftResponse approve(@PathVariable @Valid Long articleId) {
-        return draftService.approve(articleId)
+    public DraftResponse approve(@PathVariable @Valid Long draftId) {
+        return draftService.approve(draftId)
+                .map(DraftResponse::new)
+                .orElseThrow(ArticleNotFoundException::new);
+    }
+
+    @PatchMapping("/{draftId}/disapprove")
+    @Secured("ROLE_ADMIN")
+    public DraftResponse disapprove(@PathVariable @Valid Long draftId) {
+        return draftService.disapprove(draftId)
                 .map(DraftResponse::new)
                 .orElseThrow(ArticleNotFoundException::new);
     }
