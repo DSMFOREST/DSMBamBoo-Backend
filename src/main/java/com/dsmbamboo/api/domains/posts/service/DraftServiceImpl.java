@@ -1,5 +1,7 @@
 package com.dsmbamboo.api.domains.posts.service;
 
+import com.dsmbamboo.api.domains.posts.dto.CreateArticleRequest;
+import com.dsmbamboo.api.domains.posts.exception.InvalidCategoryException;
 import com.dsmbamboo.api.domains.posts.model.Article;
 import com.dsmbamboo.api.domains.posts.model.ArticleType;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,13 @@ public class DraftServiceImpl implements DraftService {
     @Override
     public Page<Article> findAll(Pageable pageable) {
         return articleService.findAllArticlesByType(ArticleType.DRAFT, pageable);
+    }
+
+    @Override
+    public Article create(CreateArticleRequest request) {
+        if (NoticeService.isContainsNoticeCategory(request.getCategories()))
+            throw new InvalidCategoryException();
+        return articleService.create(request, ArticleType.DRAFT, null, null);
     }
 
     @Override

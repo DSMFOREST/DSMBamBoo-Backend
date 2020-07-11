@@ -1,16 +1,15 @@
 package com.dsmbamboo.api.domains.posts.controller;
 
+import com.dsmbamboo.api.domains.posts.dto.CreateArticleRequest;
 import com.dsmbamboo.api.domains.posts.dto.DraftResponse;
 import com.dsmbamboo.api.domains.posts.exception.ArticleNotFoundException;
 import com.dsmbamboo.api.domains.posts.service.DraftService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,6 +25,12 @@ public class DraftController {
     public Page<DraftResponse> findAll(Pageable pageable) {
         return draftService.findAll(pageable)
                 .map(DraftResponse::new);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public DraftResponse create(@RequestBody @Valid CreateArticleRequest request) {
+        return new DraftResponse(draftService.create(request));
     }
 
     @GetMapping("/{articleId}")
