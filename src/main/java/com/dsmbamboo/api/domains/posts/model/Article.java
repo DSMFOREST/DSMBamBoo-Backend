@@ -53,4 +53,11 @@ public class Article extends Auditable {
     @OrderColumn
     private List<Image> images;
 
+    public Article approve(User approver, long publishedId) {
+        this.type = ArticleType.ARTICLE;
+        this.approver = approver;
+        this.publishedId = publishedId;
+        return this;
+    }
+
 }

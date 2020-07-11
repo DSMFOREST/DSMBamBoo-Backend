@@ -53,4 +53,9 @@ public class ArticleServiceImpl implements ArticleService {
                 .build());
     }
 
+    @Override
+    public Article save(Article article) {
+        return articleRepository.save(article);
+    }
+
 }
