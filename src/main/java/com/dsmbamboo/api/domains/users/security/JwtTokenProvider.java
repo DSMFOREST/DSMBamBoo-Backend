@@ -58,6 +58,15 @@ public class JwtTokenProvider {
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
+    public String createDocumentKey(String username) {
+        return JWT.create()
+                .withSubject(username)
+                .withExpiresAt(new Date(System.currentTimeMillis() + documentKeyExpiration * 1000))
+                .withIssuedAt(new Date())
+                .withIssuer("dsmbamboo.document_key")
+                .sign(Algorithm.HMAC512(secretKey));
+    }
+
     public Authentication getAuthentication(String token) {
         UserPrincipal userDetails = userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
