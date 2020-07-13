@@ -3,6 +3,7 @@ package com.dsmbamboo.api.domains.posts.service;
 import com.dsmbamboo.api.domains.users.service.UserService;
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class PushNotificationServiceImpl implements PushNotificationService {
 
     private final UserService userService;
 
+    @Async
     @Override
     public void sendToSingleDevice(String deviceToken, String title, String context) {
         Notification notification = new Notification(title, context);
@@ -28,6 +30,7 @@ public class PushNotificationServiceImpl implements PushNotificationService {
         }
     }
 
+    @Async
     @Override
     public void sendToMultipleDevices(List<String> deviceTokens, String title, String content) {
         Notification notification = new Notification(title, content);
@@ -43,18 +46,21 @@ public class PushNotificationServiceImpl implements PushNotificationService {
         }
     }
 
+    @Async
     @Override
     public void sendToAdministrators(String title, String content) {
         List<String> deviceTokens = userService.findAllDeviceTokensByRole("ROLE_ADMIN");
         this.sendToMultipleDevices(deviceTokens, title, content);
     }
 
+    @Async
     @Override
     public void sendToAnonymousUsers(String title, String content) {
         List<String> deviceTokens = userService.findAllDeviceTokensByRole("ROLE_ANONYMOUS");
         this.sendToMultipleDevices(deviceTokens, title, content);
     }
 
+    @Async
     @Override
     public void sendToSingleDeviceByUserId(Long userId, String title, String content) {
         userService.findById(userId)
