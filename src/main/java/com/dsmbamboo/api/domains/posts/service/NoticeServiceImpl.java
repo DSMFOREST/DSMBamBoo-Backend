@@ -21,6 +21,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     private final UserService userService;
     private final ArticleService articleService;
+    private final PushNotificationService pushNotificationService;
+
     private final AuthenticationFacade authenticationFacade;
     private final PublishedIdGenerator publishedIdGenerator;
 
@@ -45,7 +47,19 @@ public class NoticeServiceImpl implements NoticeService {
                 .map(approver -> {
                     long publishedId = publishedIdGenerator.getNextNoticePublishedId();
                     return articleService.create(request, ArticleType.NOTICE, publishedId, approver);
-                });
+                })
+                .map(this::notifyNoticeCreated);
+    }
+
+    private Article notifyNoticeCreated(Article article) {
+        String titleForAdmin = article.getApprover().getUsername() + "님이 새로운 공지사항을 게시하셨습니다.";
+        String commonContent = String.format("#%d번째 공지사항: %s", article.getPublishedId(), article.getTitle());
+        pushNotificationService.sendToAdministrators(titleForAdmin, commonContent);
+
+        String titleForAnonymousUsers = "대마고 대나무숲에 새로운 공지사항이 게시되었습니다.";
+        pushNotificationService.sendToAnonymousUsers(titleForAnonymousUsers, commonContent);
+
+        return article;
     }
 
 }
