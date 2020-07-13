@@ -3,6 +3,7 @@ package com.dsmbamboo.api.domains.users.service;
 import com.dsmbamboo.api.domains.users.model.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,5 +18,7 @@ public interface UserService {
     User save(User user);
 
     void updateDeviceToken(String deviceToken);
+    List<String> findAllDeviceTokens();
+    List<String> findAllDeviceTokensByRole(String role);
 
 }
