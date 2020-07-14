@@ -16,9 +16,8 @@ public class FcmConfig {
     @Bean
     public FirebaseApp getFirebaseApp() throws IOException {
         InputStream resourceStream = new ClassPathResource("firebase-adminsdk-credential.json").getInputStream();
-        GoogleCredentials credentials = GoogleCredentials.fromStream(resourceStream);
         FirebaseOptions options = FirebaseOptions.builder()
-                .setCredentials(credentials)
+                .setCredentials(GoogleCredentials.fromStream(resourceStream))
                 .build();
         return FirebaseApp.initializeApp(options);
     }
